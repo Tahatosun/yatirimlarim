@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Yatirimlarim.API.Data;
+using Microsoft.AspNetCore.Cors;
 
 namespace Yatirimlarim.API
 {
@@ -21,7 +22,7 @@ namespace Yatirimlarim.API
         {
             Configuration = configuration;
         }
-
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -30,7 +31,16 @@ namespace Yatirimlarim.API
             services.AddControllers(options => {
                 options.ReturnHttpNotAcceptable = true;
             }).AddXmlSerializerFormatters();
-
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200")
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod();
+                });
+            });
 
             services.AddEntityFrameworkNpgsql().AddDbContext<YatirimlarimDBContext>(opt =>
         opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConection")));
@@ -49,6 +59,7 @@ namespace Yatirimlarim.API
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseEndpoints(endpoints =>
             {

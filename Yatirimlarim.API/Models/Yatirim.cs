@@ -12,5 +12,6 @@ namespace Yatirimlarim.API.Models
         public int UrunID { get; set; }
         public DateTime YatirimTarihi { get; set; }
         public double UrunAdet { get; set; }
+        public double YatirimMaliyeti { get; set; }
     }
 }

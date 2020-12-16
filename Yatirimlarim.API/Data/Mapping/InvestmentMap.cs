@@ -19,6 +19,7 @@ namespace Yatirimlarim.API.Data.Mapping
             builder.Property(y => y.KullaniciID);
             builder.Property(y => y.UrunAdet);
             builder.Property(y => y.YatirimTarihi);
+            builder.Property(y => y.YatirimMaliyeti);
 
      
             builder.Property(y => y.YatirimID).HasColumnName("yatirimid");
@@ -26,6 +27,7 @@ namespace Yatirimlarim.API.Data.Mapping
             builder.Property(y => y.KullaniciID).HasColumnName("kullaniciid");
             builder.Property(y => y.UrunAdet).HasColumnName("urunadet");
             builder.Property(y => y.YatirimTarihi).HasColumnName("yatirimtarihi");
+            builder.Property(y => y.YatirimMaliyeti).HasColumnName("yatirimmaliyeti");
 
 
 

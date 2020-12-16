@@ -25,7 +25,7 @@ namespace Yatirimlarim.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetUsers()
         {
-            var users = await dbContext.Kullanicilar.ToListAsync();
+            var users = await dbContext.Kullanicilar.Select(k => new { k.KullaniciID, k.KullaniciAdi, k.Ad, k.Soyad, k.Telefon, k.Eposta }).ToListAsync();
             return Ok(users);
         }
         // GET api/users/1
@@ -33,7 +33,7 @@ namespace Yatirimlarim.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Kullanici>> GetUser(int id)
         {
-            var user = await dbContext.Kullanicilar.FirstOrDefaultAsync(u => u.KullaniciID == id);
+            var user = await dbContext.Kullanicilar.Where(u => u.KullaniciID == id).Select(k => new { k.KullaniciID, k.KullaniciAdi, k.Ad, k.Soyad, k.Telefon, k.Eposta }).FirstOrDefaultAsync();
             if (user is null) return NotFound();
             return Ok(user);
         }
@@ -41,6 +41,7 @@ namespace Yatirimlarim.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Kullanici>> Post(Kullanici kullanici)
         {
+
             var user = new Kullanici
             {
                 Ad = kullanici.Ad,
@@ -51,11 +52,22 @@ namespace Yatirimlarim.API.Controllers
                 Telefon = kullanici.Telefon
 
             };
-           dbContext.Kullanicilar.Add(user);
-           await dbContext.SaveChangesAsync();
+            var userCheck = await dbContext.Kullanicilar.FirstOrDefaultAsync(u => u.KullaniciAdi == user.KullaniciAdi || u.Eposta==user.Eposta);
+
+            if(userCheck is null)
+            {
+                dbContext.Kullanicilar.Add(user);
+                await dbContext.SaveChangesAsync();
+                return CreatedAtAction("GetUser", new { id = user.KullaniciID }, new { KullaniciID=user.KullaniciID, KullaniciAdi = user.KullaniciAdi, Ad=user.Ad, Soyad=user.Soyad, Telefon= user.Telefon, Eposta=user.Eposta });
+            }
+            else
+            {
+                return Conflict();
+            }
+         
 
 
-           return CreatedAtAction("GetUser", new{ id = user.KullaniciID},user);
+           
         }
 
         [HttpPut("{id}")]

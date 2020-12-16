@@ -47,7 +47,8 @@ namespace Yatirimlarim.API.Controllers
                 KullaniciID = userId,
                 UrunAdet = yatirim.UrunAdet,
                 UrunID = yatirim.UrunID,
-                YatirimTarihi = yatirim.YatirimTarihi
+                YatirimTarihi = yatirim.YatirimTarihi,
+                YatirimMaliyeti=yatirim.YatirimMaliyeti
             };
             dbContext.Yatirimlar.Add(investment);
             dbContext.SaveChanges();
