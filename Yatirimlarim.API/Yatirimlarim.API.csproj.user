@@ -10,6 +10,6 @@
     <WebStackScaffolding_LayoutPageFile />
     <WebStackScaffolding_DbContextTypeFullName>Yatirimlarim.API.Data.YatirimlarimDBContext</WebStackScaffolding_DbContextTypeFullName>
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
-    <NameOfLastUsedPublishProfile>FolderProfile8</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>FolderProfile9</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

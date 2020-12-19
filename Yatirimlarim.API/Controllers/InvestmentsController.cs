@@ -76,13 +76,16 @@ namespace Yatirimlarim.API.Controllers
         }
 
         // DELETE api/<InvestmentsController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{yatirimId}")]
         public ActionResult Delete(int userId, int yatirimId)
         {
-            var investment = dbContext.Yatirimlar.Where(p => p.KullaniciID == userId && p.YatirimID == yatirimId);
-            if (investment is null) return NotFound();
+            var investment = dbContext.Yatirimlar.FirstOrDefault(p => p.KullaniciID == userId && p.YatirimID == yatirimId);
+            if (investment is null) 
+                return NotFound();
 
-            return Ok();
+            dbContext.Yatirimlar.Remove(investment);
+            dbContext.SaveChanges();
+            return NoContent();
 
         }
     }
